@@ -42,20 +42,22 @@
           />
         </v-col>
 
-        <v-col cols="12" md="3" v-if="form.type === AccountType.LOCAL">
-          <v-text-field
-            v-model="form.password"
-            :label="RU.ACCOUNT_ITEM.PASSWORD_LABEL"
-            :type="showPassword ? 'text' : 'password'"
-            :maxlength="101"
-            :rules="passwordRules"
-            validate-on="blur"
-            variant="outlined"
-            density="comfortable"
-            @blur="handleSave"
-            :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-            @click:append-inner="showPassword = !showPassword"
-          />
+        <v-col cols="12" md="3">
+          <div v-show="form.type === AccountType.LOCAL">
+            <v-text-field
+              v-model="form.password"
+              :label="RU.ACCOUNT_ITEM.PASSWORD_LABEL"
+              :type="showPassword ? 'text' : 'password'"
+              :maxlength="101"
+              :rules="passwordRules"
+              validate-on="blur"
+              variant="outlined"
+              density="comfortable"
+              @blur="handleSave"
+              :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+              @click:append-inner="showPassword = !showPassword"
+            />
+          </div>
         </v-col>
 
         <v-col cols="12" md="1" class="d-flex align-center justify-end">
@@ -77,6 +79,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed, watch } from 'vue'
+import type { VForm } from 'vuetify/components'
 import { AccountType, type AccountFormData, type Account } from '@/types/account'
 import { RU } from '@/constants/accountTexts'
 import {
@@ -99,6 +102,7 @@ interface Emits {
   (e: 'delete', id: string): void
   (e: 'cancel'): void
 }
+
 const props = withDefaults(defineProps<Props>(), {
   isNew: false,
   loading: false,
@@ -107,6 +111,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<Emits>()
 
 const showPassword = ref(false)
+const formRef = ref<VForm>()
 const form = reactive<AccountFormData>({
   labelsString: '',
   type: AccountType.LOCAL,
@@ -116,18 +121,6 @@ const form = reactive<AccountFormData>({
 
 const passwordRules = computed(() => getPasswordRules(form.type))
 
-const isValid = computed(() => {
-  const isLoginValid = loginRules.every((rule) => rule(form.login) === true)
-  const isTypeValid = typeRules.every((rule) => rule(form.type) === true)
-
-  let isPasswordValid = true
-  if (form.type === AccountType.LOCAL) {
-    isPasswordValid = passwordRules.value.every((rule) => rule(form.password) === true)
-  }
-
-  return isLoginValid && isTypeValid && isPasswordValid
-})
-
 const handleTypeChange = () => {
   if (form.type === AccountType.LDAP) {
     form.password = ''
@@ -135,15 +128,20 @@ const handleTypeChange = () => {
   handleSave()
 }
 
-const handleSave = () => {
-  if (!isValid.value) return
+const handleSave = async () => {
+  if (!formRef.value) return
 
-  if (props.isNew) {
-    emit('create', { ...form })
-  } else if ('id' in props.account) {
-    emit('update', { id: props.account.id, data: { ...form } })
+  const { valid } = await formRef.value.validate()
+
+  if (valid) {
+    if (props.isNew) {
+      emit('create', { ...form })
+    } else if ('id' in props.account) {
+      emit('update', { id: props.account.id, data: { ...form } })
+    }
   }
 }
+
 const handleDelete = () => {
   if (!props.isNew && 'id' in props.account) {
     emit('delete', props.account.id)

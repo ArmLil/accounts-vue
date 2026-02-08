@@ -69,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useAccountsStore } from '@/stores/accounts'
 import AccountItem from '@/components/AccountItem.vue'
 import { AccountType, type AccountFormData } from '@/types/account'
@@ -106,10 +106,6 @@ const handleUpdate = async ({ id, data }: { id: string; data: AccountFormData })
 const handleDelete = async (id: string) => {
   await accountsStore.deleteAccount(id)
 }
-
-watch(showNewForm, (value) => {
-  console.log('showNewForm', value)
-})
 
 onMounted(async () => {
   await accountsStore.fetchAccounts()

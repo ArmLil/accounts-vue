@@ -1,25 +1,39 @@
 {
   "accounts": [
     {
-      "id": "1ec1",
-      "labels": [],
+      "id": "76eb",
+      "labels": [
+        {
+          "text": "service"
+        },
+        {
+          "text": "backup"
+        }
+      ],
       "type": "local",
-      "login": "aa",
-      "password": "aaa"
+      "login": "backup_service",
+      "password": "Backup@S3rv1ce"
     },
     {
-      "labels": [],
-      "type": "local",
-      "login": "dfgd",
-      "password": "dfgdg",
-      "id": "9bf6"
+      "id": "819f",
+      "labels": [
+        {
+          "text": "employee"
+        },
+        {
+          "text": "finance"
+        }
+      ],
+      "type": "LDAP",
+      "login": "john.doe@company.com",
+      "password": null
     },
     {
-      "id": "bf51",
+      "id": "867e",
       "labels": [],
       "type": "local",
-      "login": "sdsd",
-      "password": "sdsds"
+      "login": "lilit",
+      "password": "Lilit@123456"
     }
   ]
 }

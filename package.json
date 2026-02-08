@@ -14,8 +14,7 @@
     "lint:oxlint": "oxlint . --fix",
     "lint:eslint": "eslint . --fix --cache",
     "format": "prettier --write --experimental-cli src/",
-    "api": "json-server --watch db.json --port 3000 --host 127.0.0.1",
-    "api:cors": "json-server --watch db.json --port 3000 --host 127.0.0.1 --middlewares ./middleware.js"
+    "api": "json-server --watch db.json --port 3000"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
