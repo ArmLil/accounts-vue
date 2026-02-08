@@ -1,0 +1,25 @@
+{
+  "accounts": [
+    {
+      "id": "1ec1",
+      "labels": [],
+      "type": "local",
+      "login": "aa",
+      "password": "aaa"
+    },
+    {
+      "labels": [],
+      "type": "local",
+      "login": "dfgd",
+      "password": "dfgdg",
+      "id": "9bf6"
+    },
+    {
+      "id": "bf51",
+      "labels": [],
+      "type": "local",
+      "login": "sdsd",
+      "password": "sdsds"
+    }
+  ]
+}
