@@ -60,8 +60,8 @@ npm run lint
 
 ```bash
 # 1. Клонировать репозиторий
-git clone <repository-url>
-cd vue-accounts-manager
+git clone git@github.com:ArmLil/accounts-vue.git
+cd accounts-vue
 
 # 2. Установить зависимости
 npm install
